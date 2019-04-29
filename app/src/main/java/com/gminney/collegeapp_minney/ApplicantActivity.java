@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,14 +16,44 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+
 public class ApplicantActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Fragment contentFragment = null;
+    String APP_ID;
+    String API_KEY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        APP_ID = getString(R.string.APP_ID);
+        API_KEY = getString(R.string.API_KEY);
+        Backendless.initApp(this,APP_ID, API_KEY);
+
+        /*
+        BackendlessUser user = new BackendlessUser();
+        user.setEmail("lloydminn@gmail.com");
+        user.setPassword("password");
+        Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
+            @Override
+            public void handleResponse(BackendlessUser response) {
+                Log.i("user", response.getEmail() + " successfully registered");
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Log.e("Backendless Error", fault.getMessage());
+            }
+        });
+        */
+
+
+
         setContentView(R.layout.activity_applicant);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,7 +116,7 @@ public class ApplicantActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.family_number) {
-            contentFragment = new FamilyMemberFragment();
+            contentFragment = new FamilyListFragment();
             // Handle the camera action
         } else if (id == R.id.profile) {
             contentFragment = new ProfileFragment();
