@@ -15,17 +15,16 @@ import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 
-/**
- * Created by simmonsj05 on 1/15/17.
- */
 public class GuardianFragment extends Fragment {
 
+    ////////    Variable instantiation for elements on layout file, Guardian object, and constant string TAG    /////////////////////////////////////////////////////////////////////////
     private TextView mFirstNameTextView, mLastNameTextView, mOccupationTextView;
     private EditText mFirstNameEditText, mLastNameEditText, mOccupationEditText;
     private Button mSubmitButton;
     private Guardian mGuardian;
     private final String TAG = "GUARDIAN_FRAGMENT";
 
+    ////////    onCreateView inflates layout with fragment_guardian.xml, links layout elements in code, logic for onClickListeners, saves to backendless, returns rootview     ///////////
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,6 +85,7 @@ public class GuardianFragment extends Fragment {
         return rootView;
     }
 
+    ////////    Retrieves intent and sets elements on layout file to properties of guardian     /////////////////////////////////////////////////////////////////////////
     @Override
     public void onStart(){
         int index = getActivity().getIntent().getIntExtra(FamilyMember.EXTRA_INDEX, -1);

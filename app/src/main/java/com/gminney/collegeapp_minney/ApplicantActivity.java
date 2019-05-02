@@ -21,13 +21,17 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 
-public class ApplicantActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class ApplicantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    ////////    Create null fragment + Variable instantiation for API_KEY, APP_ID, constant EMAIL_PREF      ///////////////////////////////////////////////////////////////
 
     Fragment contentFragment = null;
     String APP_ID;
     String API_KEY;
+    public static String EMAIL_PREF;
 
+
+    //////////////////////////  On app load, Assign API KEY and APP ID and link with backendless. Then set navigation view and load activity_applicant.xml ///////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,8 @@ public class ApplicantActivity extends AppCompatActivity
         Backendless.initApp(this,APP_ID, API_KEY);
 
         /*
+        //////////     Portion of code to register a new user on backendless - Unused       //////////
+
         BackendlessUser user = new BackendlessUser();
         user.setEmail("lloydminn@gmail.com");
         user.setPassword("password");
@@ -51,8 +57,6 @@ public class ApplicantActivity extends AppCompatActivity
             }
         });
         */
-
-
 
         setContentView(R.layout.activity_applicant);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,6 +81,7 @@ public class ApplicantActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+///////////////////////////////////     Opens app drawer on back button press   ///////////////////////////////////////////////////////////////////////////////
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -87,47 +92,38 @@ public class ApplicantActivity extends AppCompatActivity
         }
     }
 
+    //////////////////////////////////      Inflate the menu; this adds items to the action bar if it is present.       ////////////////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
+    /////////////////////////////////        Handle action bar item clicks here. The action bar will    ///////////////////////////////////////////////////////////
+    /////////////////////////////////        automatically handle clicks on the Home/Up button          ///////////////////////////////////////////////////////////
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    ////////////////////////////////         Handle navigation view item clicks here. Opens new fragment based on which item selected     /////////////////////////////////////////
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.family_number) {
             contentFragment = new FamilyListFragment();
-            // Handle the camera action
         } else if (id == R.id.profile) {
             contentFragment = new ProfileFragment();
         }
-
         if (contentFragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, contentFragment);
             ft.commit();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

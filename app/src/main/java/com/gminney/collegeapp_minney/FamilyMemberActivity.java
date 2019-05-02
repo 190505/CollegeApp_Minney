@@ -7,14 +7,13 @@ import android.support.v4.app.FragmentManager;
 
 public class FamilyMemberActivity extends FragmentActivity {
 
+    ////////    onCreate method for FamilyMemberActivity - Creates a new SiblingFragment or GuardianFragment based off of the intent provided     //////////////////////
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_guardian);
+        setContentView(R.layout.activity_family_member);
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = null;// = fm.findFragmentById(R.id.fragmentContainer);
-
         if (fragment == null) {
             if (getIntent().getStringExtra(FamilyMember.EXTRA_RELATION).equals(Guardian.class.getName())) {
                 fragment = new GuardianFragment();

@@ -23,24 +23,25 @@ import com.backendless.exceptions.BackendlessFault;
 import java.util.ArrayList;
 
 public class FamilyListFragment extends ListFragment {
+
+    ////////    Variable instantiation mFamily objects       /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private final String TAG = FamilyListFragment.class.getName();
-
     Family mFamily;
-
     public FamilyListFragment(){
         mFamily = Family.getFamily();
     }
 
+    ////////    onCreate method sets adapter to list of family member objects      //////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.family_member_title);
         FamilyMemberAdapter adapter = new FamilyMemberAdapter(mFamily.getFamilyList());
         setListAdapter(adapter);
-        setListAdapter(adapter);
         setHasOptionsMenu(true);
     }
 
+    ////////    Inner class FamilyMemberAdapter which sets up the the Family list view and inflates layouts      ///////////////////////////////////////////////////////////////
     private class FamilyMemberAdapter extends ArrayAdapter<FamilyMember> {
         public FamilyMemberAdapter(ArrayList<FamilyMember> family) {
             super(getActivity(), 0, family);
@@ -52,36 +53,34 @@ public class FamilyListFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater()
                         .inflate(R.layout.list_item_family_member, null);
             }
-
             FamilyMember f = getItem(position);
             Log.d(TAG, "The type of FamilyMember at position " + position + " is " + f.getClass().getName());
-
             TextView nameTextView =
                     (TextView)convertView
                             .findViewById(R.id.family_member_list_item_nameTextView);
             nameTextView.setText(f.toString());
-
             return convertView;
         }
     }
 
+    ////////    onCreateView inflates ListView      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
-
         ListView listView = (ListView)v.findViewById(android.R.id.list);
         registerForContextMenu(listView);
-
         return v;
     }
 
+    ////////   onCreateOptionsMenu inflates the view with fragment_family_list.xml      /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_family_list, menu);
     }
 
+    ////////   OnOptionsItemSelected retrieves a selected item in the list, changes view to new layout based on type of item selected      ///////////////////////////////////////////////////////////////
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         FamilyMemberAdapter adapter = (FamilyMemberAdapter)getListAdapter();
@@ -113,6 +112,7 @@ public class FamilyListFragment extends ListFragment {
         }
     }
 
+    ////////    onCreateContextMenu inflates view with family_List_item_context      ///////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -121,6 +121,7 @@ public class FamilyListFragment extends ListFragment {
                 menu);
     }
 
+    ////////    On item selected within the context menu, setup adapter, delete member, update backendless      ///////////////////////////////////////////////////////////////
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Log.d(TAG, "Context item selected.");
@@ -151,6 +152,7 @@ public class FamilyListFragment extends ListFragment {
         return super.onContextItemSelected(item);
     }
 
+    ////////    Once app is reopened, update adapter      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void onResume() {
         super.onResume();
@@ -158,6 +160,7 @@ public class FamilyListFragment extends ListFragment {
         adapter.notifyDataSetChanged();
     }
 
+    ////////    OnListItemClick retrieves item, creates an intent, and starts a new activity with the intent      ///////////////////////////////////////////////////////////////
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         FamilyMember f = ((FamilyMemberAdapter)getListAdapter()).getItem(position);

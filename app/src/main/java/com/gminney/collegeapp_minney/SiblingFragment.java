@@ -17,26 +17,24 @@ import com.backendless.exceptions.BackendlessFault;
 
 public class SiblingFragment extends Fragment {
 
-
+    ////////    Variable Instantiation for elements on layout file fragment_sibling.xml     /////////////////////////////////////////////////////////////////////////
     private TextView mFirstNameTextView, mLastNameTextView, mOccupationTextView;
     private EditText mFirstNameEditText, mLastNameEditText, mOccupationEditText;
     private Button mSubmitButton;
     private Sibling mSibling;
     private final String TAG = "SIBLING_FRAGMENT";
 
+    ////////    onCreateView inflates layout with fragment_sibling.xml, links layout elements in code, logic for onClickListeners, saves to backendless, returns rootview     ////////////////////////////////////
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sibling, container, false);
-
         mSibling = new Sibling("FirstName", "LastName");
-
         mFirstNameTextView = (TextView) rootView.findViewById(R.id.sibling_first_name);
         mLastNameTextView = (TextView) rootView.findViewById(R.id.sibling_last_name);
         mFirstNameEditText = (EditText) rootView.findViewById(R.id.sibling_first_name_edit);
         mLastNameEditText = (EditText) rootView.findViewById(R.id.sibling_last_name_edit);
         mSubmitButton = (Button) rootView.findViewById(R.id.sibling_submit_button);
-
         mFirstNameTextView.setText(mSibling.getFirstName());
         mLastNameTextView.setText(mSibling.getLastName());
 
@@ -67,14 +65,12 @@ public class SiblingFragment extends Fragment {
                         Log.i(TAG, backendlessFault.toString());
                     }
                 });
-
-
             }
         });
-
         return rootView;
     }
 
+    ////////    Retrieves intent and sets elements on layout file to properties of sibling     /////////////////////////////////////////////////////////////////////////
     @Override
     public void onStart(){
         int index = getActivity().getIntent().getIntExtra(FamilyMember.EXTRA_INDEX, -1);
